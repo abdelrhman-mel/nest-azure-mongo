@@ -1,0 +1,29 @@
+version: '3.8'
+services:
+  mongo:
+    image: mongo
+    container_name: mongodb
+    restart: unless-stopped
+    ports:
+      - 27017:27017
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: splash
+      MONGO_INITDB_ROOT_PASSWORD: splash
+    volumes:
+      - splashdb:/data/db
+
+  mongo-express:
+    image: mongo-express
+    container_name: mongo-express
+    restart: unless-stopped
+    depends_on:
+      - mongo
+    ports:
+      - '8081:8081'
+    environment:
+      ME_CONFIG_MONGODB_ADMINUSERNAME: splash
+      ME_CONFIG_MONGODB_ADMINPASSWORD: splash
+      ME_CONFIG_MONGODB_SERVER: 'mongo'
+
+volumes:
+  splashdb:
