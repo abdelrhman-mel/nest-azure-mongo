@@ -22,7 +22,6 @@ export class EventHubService {
 
   async consumeEvents() {
     // Start receiving events
-    // This is a simplified example. Consider proper error handling and graceful shutdown.
     this.consumerClient.subscribe({
       processEvents: async (events) => {
         if (events.length === 0) {
@@ -30,7 +29,6 @@ export class EventHubService {
         }
         for (const event of events) {
           this.logger.log(`Received event: ${JSON.stringify(event.body)}`);
-          // Process the event here (e.g., send it to a Service Bus queue based on criteria)
           await this.azureServiceBusService.sendMessageBasedOnTemperature(
             event.body,
           );
